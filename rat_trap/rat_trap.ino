@@ -37,18 +37,13 @@ void setup() {
 }
 
 void loop() {
-delay(200);
+  delay(200);
   Servo0();
-
   sleep1();
+
   Servo1();
   beep();
-//if (digitalRead(0)==0) {
- // beep();
-//}
 }
-
-
 
 void beep() {
   digitalWrite(SpeakerPin, HIGH);

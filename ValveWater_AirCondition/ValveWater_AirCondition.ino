@@ -19,8 +19,8 @@ BlynkTimer timer;
 #define Blynk_KEY "xxxxxx"
 #define LINE_TOKEN  "xxxxxxxxx"
 #define OTA_PASS "admin"
-// *** Remove this line
-#include "credentials.h"
+
+#include "credentials.h"  // *** Remove this line
 
 // Wifi
 const char* ssid = WIFI_SSID;

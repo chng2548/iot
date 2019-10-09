@@ -39,6 +39,8 @@ NTPClient timeClient(ntpUDP, "pool.ntp.org", 25200);  // +7
 DHTesp dht;
 BlynkTimer timer;
 
+WiFiClient client;
+
 void SetupOTA() {
   // Port defaults to 8266
   // ArduinoOTA.setPort(8266);
@@ -86,6 +88,47 @@ void SetupOTA() {
   });
   ArduinoOTA.begin();
 }
+
+
+const char *weatherHost = "api.openweathermap.org";
+
+void getWeatherData() {
+  Serial.print("connecting to "); Serial.println(weatherHost);
+  if (client.connect(weatherHost, 80)) {
+    client.println(String("GET /data/2.5/weather?id=") + cityID + 
+      "&units=metric&appid=" + weatherKey + weatherLang + "\r\n" +
+      "Host: " + weatherHost + "\r\nUser-Agent: ArduinoWiFi/1.1\r\n" +
+      "Connection: close\r\n\r\n");
+  } else {
+    Serial.println("connection failed");
+    return;
+  }
+  String line;
+  int repeatCounter = 0;
+  while (!client.available() && repeatCounter < 10) {
+    delay(500);
+    Serial.println("w.");
+    repeatCounter++;
+  }
+  while (client.connected() && client.available()) {
+    char c = client.read(); 
+    if (c == '[' || c == ']') c = ' ';
+    line += c;
+  }
+  client.stop();
+
+  DynamicJsonBuffer jsonBuf;
+  JsonObject &root = jsonBuf.parseObject(line);
+  if (!root.success())
+  {
+    Serial.println("parseObject() failed");
+    return;
+  }
+
+  temp = root["main"]["temp"];
+  humidity = root["main"]["humidity"];
+}
+
 
 
 void CheckTemp() {

@@ -91,8 +91,9 @@ void SetupOTA() {
 
 
 const char *weatherHost = "api.openweathermap.org";
-
+/*
 void getWeatherData() {
+  int cityID=1;
   Serial.print("connecting to "); Serial.println(weatherHost);
   if (client.connect(weatherHost, 80)) {
     client.println(String("GET /data/2.5/weather?id=") + cityID + 
@@ -125,11 +126,11 @@ void getWeatherData() {
     return;
   }
 
-  temp = root["main"]["temp"];
-  humidity = root["main"]["humidity"];
+  float temp = root["main"]["temp"];
+  float humidity = root["main"]["humidity"];
 }
 
-
+*/
 
 void CheckTemp() {
   float h = dht.getHumidity();
@@ -166,7 +167,7 @@ void CheckTemp() {
     } 
     if ((timecal > 0 && timecal < (6*60+30)) || (timecal > (19*60+30) && timecal < (23*60+59))) {
       // not work time.
-      if (t <= 25) {
+      if (t <= 24) {
         if (millis() > NextNotify) {
           LINE.notify("ห้อง Server อาจจะยังไม่ปิดแอร์ อุณหภูมิ:" + String(t,2));
           NextNotify = NextNotify + LongNotify;
@@ -225,7 +226,7 @@ void setup() {
 
   long timerId_temp = timer.setInterval(5000L, CheckTemp); //5sec.
   timer.enable(timerId_temp);
-  long timerId_NTP = timer.setInterval(86400000L, NTPSet); //5sec.
+  long timerId_NTP = timer.setInterval(86400000L, NTPSet); //
   timer.enable(timerId_NTP);
 
   Blynk.begin(auth, ssid, password);

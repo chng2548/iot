@@ -147,7 +147,7 @@ void CheckTemp() {
     return;
   }
   h = h + 20;
-  t = t + 3;
+  t = t + 2;
   // You can send any value at any time.
   // Please don't send more that 10 values per second.
   Blynk.virtualWrite(V0, t);
@@ -157,7 +157,7 @@ void CheckTemp() {
 //7:20 - 18:50
     if (timecal > (7*60+20) && timecal < (18*60+50)) {
       // Woke time.
-      if (t >= 28) {
+      if (t >= 27) {
         if (millis() > NextNotify) {
           LINE.notify("ห้อง Server อุณหภูมิสูงกว่าปกติ " + String(t,2));
           NextNotify = NextNotify + LongNotify;
@@ -224,9 +224,9 @@ void setup() {
   LINE.setToken(LINE_TOKEN);  // กำหนด Line Token Line Notify
   //LINE.notify("bbbbbbbbbbbbbbb");     // ตัวอย่างส่งข้อความ
 
-  long timerId_temp = timer.setInterval(5000L, CheckTemp); //5sec.
+  long timerId_temp = timer.setInterval(1000L, CheckTemp); //1sec.
   timer.enable(timerId_temp);
-  long timerId_NTP = timer.setInterval(86400000L, NTPSet); //
+  long timerId_NTP = timer.setInterval(86400000L, NTPSet); //1day
   timer.enable(timerId_NTP);
 
   Blynk.begin(auth, ssid, password);

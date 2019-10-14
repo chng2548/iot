@@ -160,17 +160,17 @@ void CheckTemp() {
       if (t >= 27) {
         if (millis() > NextNotify) {
           LINE.notify("ห้อง Server อุณหภูมิสูงกว่าปกติ " + String(t,2));
-          NextNotify = NextNotify + LongNotify;
+          NextNotify = millis() + LongNotify;
         }
       }
+    }
 // 0:00-6:30   19:30-23:59
-    } 
     if ((timecal > 0 && timecal < (6*60+30)) || (timecal > (19*60+30) && timecal < (23*60+59))) {
       // not work time.
-      if (t <= 24) {
+      if (t <= 25) {
         if (millis() > NextNotify) {
           LINE.notify("ห้อง Server อาจจะยังไม่ปิดแอร์ อุณหภูมิ:" + String(t,2));
-          NextNotify = NextNotify + LongNotify;
+          NextNotify = millis() + LongNotify;
         }
       }
     }

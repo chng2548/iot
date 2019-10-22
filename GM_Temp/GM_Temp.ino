@@ -8,11 +8,11 @@
 
 
 
-#define WIFI_SSID "xx"
-#define WIFI_PASSWD "xx"
-#define Blynk_KEY "xxx"
-#define LINE_TOKEN  "xxxx"
-#define OTA_PASS "admin"
+//#define WIFI_SSID "xx"
+//#define WIFI_PASSWD "xx"
+//#define Blynk_KEY "xxx"
+//#define LINE_TOKEN  "xxxx"
+//#define OTA_PASS "admin"
 
 #include "credentials.h"
 
@@ -49,7 +49,7 @@ void SetupOTA() {
   ArduinoOTA.setHostname("ESP8266-GMTemperature");
 
   // No authentication by default
-  ArduinoOTA.setPassword(OTA_PASS);
+  //ArduinoOTA.setPassword(OTA_PASS);
 
   // Password can be set with it's md5 value as well
   // MD5(admin) = 21232f297a57a5a743894a0e4a801fc3
@@ -146,8 +146,8 @@ void CheckTemp() {
     ledblink();
     return;
   }
-  h = h + 20;
-  t = t + 2;
+  //h = h + 20;
+  t = t + 1;
   // You can send any value at any time.
   // Please don't send more that 10 values per second.
   Blynk.virtualWrite(V0, t);
@@ -222,7 +222,6 @@ void setup() {
   dht.setup(DHT_PIN, DHTesp::DHT11);
 
   LINE.setToken(LINE_TOKEN);  // กำหนด Line Token Line Notify
-  //LINE.notify("bbbbbbbbbbbbbbb");     // ตัวอย่างส่งข้อความ
 
   long timerId_temp = timer.setInterval(1000L, CheckTemp); //1sec.
   timer.enable(timerId_temp);
@@ -235,6 +234,7 @@ void setup() {
   NTPSet();
 
   pinMode(BUILTIN_LED1, OUTPUT); // Initialize the BUILTIN_LED1 pin as an output
+  LINE.notify("Start.");
 }
 
 
